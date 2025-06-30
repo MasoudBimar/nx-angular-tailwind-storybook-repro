@@ -1,0 +1,696 @@
+{
+    "pipes": [],
+    "interfaces": [],
+    "injectables": [],
+    "guards": [],
+    "interceptors": [],
+    "classes": [],
+    "directives": [],
+    "components": [],
+    "modules": [],
+    "miscellaneous": {
+        "variables": [
+            {
+                "name": "config",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "apps/nx-angular-tailwind-storybook-repro/.storybook/main.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "StorybookConfig",
+                "defaultValue": "{\r\n  stories: ['../src/app/**/*.@(mdx|stories.@(js|jsx|ts|tsx))'],\r\n  addons: [getAbsolutePath(\"@storybook/addon-links\"), getAbsolutePath(\"@storybook/addon-docs\")],\r\n  env: (config) => ({\r\n    ...config,\r\n    NODE_ENV: 'development',\r\n  }),\r\n  framework: {\r\n    name: getAbsolutePath(\"@storybook/angular\"),\r\n    options: {},\r\n  },\r\n  docs: {\r\n    defaultName: 'Docs'\r\n  },\r\n  previewHead: (head) => `\r\n    ${head}\r\n    <link href=\"https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap\" rel=\"stylesheet\">\r\n    <link href=\"https://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\">\r\n  `,\r\n  webpackFinal: async (config) => {\r\n    // Ensure config.module exists\r\n    config.module = config.module || {};\r\n    config.module.rules = config.module.rules || [];\r\n\r\n    // Remove existing CSS rules to avoid conflicts\r\n    config.module.rules = config.module.rules.filter(rule => {\r\n      if (rule && typeof rule === 'object' && rule.test) {\r\n        return !rule.test.toString().includes('.css');\r\n      }\r\n      return true;\r\n    });\r\n\r\n    // Add PostCSS loader for CSS files to process Tailwind\r\n    config.module.rules.push({\r\n      test: /\\.css$/,\r\n      use: [\r\n        'style-loader',\r\n        'css-loader',\r\n        {\r\n          loader: 'postcss-loader',\r\n          options: {\r\n            postcssOptions: {\r\n              plugins: [\r\n                ['@tailwindcss/postcss', {}],\r\n              ],\r\n            },\r\n          },\r\n        },\r\n      ],\r\n    });\r\n\r\n    // Add SCSS loader for Angular Material theme\r\n    config.module.rules.push({\r\n      test: /\\.scss$/,\r\n      use: [\r\n        'style-loader',\r\n        'css-loader',\r\n        'sass-loader',\r\n      ],\r\n    });\r\n\r\n    return config;\r\n  },\r\n  staticDirs: ['../public'],\r\n}"
+            },
+            {
+                "name": "Default",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "apps/nx-angular-tailwind-storybook-repro/src/app/components/material-card.component.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    title: 'Material Card',\r\n    subtitle: 'Built with Angular Material',\r\n    content: 'This card showcases Angular Material components with a clean, Material Design aesthetic.',\r\n    showActions: true,\r\n  },\r\n}"
+            },
+            {
+                "name": "Default",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "apps/nx-angular-tailwind-storybook-repro/src/app/components/tailwind-card.component.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    title: 'Tailwind Card',\r\n    description: 'This card showcases beautiful styling with Tailwind CSS utility classes.',\r\n    badges: ['CSS', 'Responsive', 'Modern'],\r\n    showButton: true,\r\n    buttonText: 'Learn More',\r\n  },\r\n}"
+            },
+            {
+                "name": "LongContent",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "apps/nx-angular-tailwind-storybook-repro/src/app/components/material-card.component.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    title: 'Card with Long Content',\r\n    subtitle: 'Extended description',\r\n    content: 'This card demonstrates how the component handles longer content. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',\r\n    showActions: true,\r\n  },\r\n}"
+            },
+            {
+                "name": "meta",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "apps/nx-angular-tailwind-storybook-repro/src/app/app.component.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Meta<AppComponent>",
+                "defaultValue": "{\r\n  component: AppComponent,\r\n  title: 'AppComponent',\r\n  decorators: [\r\n    moduleMetadata({\r\n      imports: [\r\n        RouterTestingModule\r\n      ],\r\n    }),\r\n  ],\r\n}"
+            },
+            {
+                "name": "meta",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "apps/nx-angular-tailwind-storybook-repro/src/app/components/material-card.component.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Meta<MaterialCardComponent>",
+                "defaultValue": "{\r\n  component: MaterialCardComponent,\r\n  title: 'Components/Material Card',\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        component: 'A card component built with Angular Material components.',\r\n      },\r\n    },\r\n  },\r\n  argTypes: {\r\n    title: {\r\n      control: 'text',\r\n      description: 'The main title of the card',\r\n    },\r\n    subtitle: {\r\n      control: 'text',\r\n      description: 'The subtitle of the card',\r\n    },\r\n    content: {\r\n      control: 'text',\r\n      description: 'The main content text',\r\n    },\r\n    imageUrl: {\r\n      control: 'text',\r\n      description: 'Optional image URL for the card header',\r\n    },\r\n    showActions: {\r\n      control: 'boolean',\r\n      description: 'Whether to show action buttons',\r\n    },\r\n  },\r\n}"
+            },
+            {
+                "name": "meta",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "apps/nx-angular-tailwind-storybook-repro/src/app/components/tailwind-card.component.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Meta<TailwindCardComponent>",
+                "defaultValue": "{\r\n  component: TailwindCardComponent,\r\n  title: 'Components/Tailwind Card',\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        component: 'A modern card component styled with Tailwind CSS utility classes.',\r\n      },\r\n    },\r\n  },\r\n  argTypes: {\r\n    title: {\r\n      control: 'text',\r\n      description: 'The main title of the card',\r\n    },\r\n    description: {\r\n      control: 'text',\r\n      description: 'The description text of the card',\r\n    },\r\n    imageUrl: {\r\n      control: 'text',\r\n      description: 'Optional image URL for the card header',\r\n    },\r\n    badges: {\r\n      control: 'object',\r\n      description: 'Array of badge labels',\r\n    },\r\n    showButton: {\r\n      control: 'boolean',\r\n      description: 'Whether to show the action button',\r\n    },\r\n    buttonText: {\r\n      control: 'text',\r\n      description: 'Text for the action button',\r\n    },\r\n  },\r\n}"
+            },
+            {
+                "name": "preview",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "apps/nx-angular-tailwind-storybook-repro/.storybook/preview.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Preview",
+                "defaultValue": "{\r\n  parameters: {\r\n    controls: {\r\n      matchers: {\r\n        color: /(background|color)$/i,\r\n        date: /Date$/,\r\n      },\r\n    },\r\n    docs: {\r\n      toc: true,\r\n    },\r\n    backgrounds: {\r\n      default: 'light',\r\n      values: [\r\n        {\r\n          name: 'light',\r\n          value: '#ffffff',\r\n        },\r\n        {\r\n          name: 'dark',\r\n          value: '#333333',\r\n        },\r\n        {\r\n          name: 'gray',\r\n          value: '#f5f5f5',\r\n        },\r\n      ],\r\n    },\r\n  },\r\n\r\n  decorators: [\r\n    (story) => {\r\n      return story();\r\n    },\r\n  ],\r\n\r\n  tags: ['autodocs']\r\n}"
+            },
+            {
+                "name": "Primary",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "apps/nx-angular-tailwind-storybook-repro/src/app/app.component.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    title: 'nx-angular-tailwind-storybook-repro',\r\n  },\r\n}"
+            },
+            {
+                "name": "ProductCard",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "apps/nx-angular-tailwind-storybook-repro/src/app/components/tailwind-card.component.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    title: 'Premium Product',\r\n    description: 'High-quality product with excellent features and modern design.',\r\n    badges: ['Premium', 'Quality', 'Design'],\r\n    showButton: true,\r\n    buttonText: 'Buy Now',\r\n  },\r\n}"
+            },
+            {
+                "name": "require",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "apps/nx-angular-tailwind-storybook-repro/.storybook/main.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "createRequire(import.meta.url)"
+            },
+            {
+                "name": "SimpleCard",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "apps/nx-angular-tailwind-storybook-repro/src/app/components/material-card.component.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    title: 'Simple Card',\r\n    subtitle: 'No actions',\r\n    content: 'This is a simple card without action buttons.',\r\n    showActions: false,\r\n  },\r\n}"
+            },
+            {
+                "name": "SimpleCard",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "apps/nx-angular-tailwind-storybook-repro/src/app/components/tailwind-card.component.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    title: 'Simple Design',\r\n    description: 'Sometimes less is more. This card demonstrates a clean, minimal approach.',\r\n    badges: ['Minimal', 'Clean'],\r\n    showButton: false,\r\n  },\r\n}"
+            },
+            {
+                "name": "TechCard",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "apps/nx-angular-tailwind-storybook-repro/src/app/components/tailwind-card.component.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    title: 'Modern Web Development',\r\n    description: 'Build amazing user interfaces with modern frameworks and tools.',\r\n    badges: ['React', 'Angular', 'Vue'],\r\n    showButton: true,\r\n    buttonText: 'Start Building',\r\n  },\r\n}"
+            },
+            {
+                "name": "WithImage",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "apps/nx-angular-tailwind-storybook-repro/src/app/components/material-card.component.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    title: 'Beautiful Landscape',\r\n    subtitle: 'Nature Photography',\r\n    content: 'Discover the beauty of nature through this stunning landscape photograph.',\r\n    imageUrl: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',\r\n    showActions: true,\r\n  },\r\n}"
+            },
+            {
+                "name": "WithImage",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "apps/nx-angular-tailwind-storybook-repro/src/app/components/tailwind-card.component.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\r\n  args: {\r\n    title: 'Mountain Adventure',\r\n    description: 'Explore breathtaking mountain landscapes and outdoor adventures.',\r\n    imageUrl: 'https://images.unsplash.com/photo-1464822759844-d150f80349b9?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',\r\n    badges: ['Adventure', 'Nature', 'Photography'],\r\n    showButton: true,\r\n    buttonText: 'Explore Now',\r\n  },\r\n}"
+            }
+        ],
+        "functions": [
+            {
+                "name": "getAbsolutePath",
+                "file": "apps/nx-angular-tailwind-storybook-repro/.storybook/main.ts",
+                "ctype": "miscellaneous",
+                "subtype": "function",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "args": [
+                    {
+                        "name": "value",
+                        "type": "string",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "returnType": "any",
+                "jsdoctags": [
+                    {
+                        "name": "value",
+                        "type": "string",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            }
+        ],
+        "typealiases": [
+            {
+                "name": "Story",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "StoryObj<AppComponent>",
+                "file": "apps/nx-angular-tailwind-storybook-repro/src/app/app.component.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 183
+            },
+            {
+                "name": "Story",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "StoryObj<MaterialCardComponent>",
+                "file": "apps/nx-angular-tailwind-storybook-repro/src/app/components/material-card.component.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 183
+            },
+            {
+                "name": "Story",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "StoryObj<TailwindCardComponent>",
+                "file": "apps/nx-angular-tailwind-storybook-repro/src/app/components/tailwind-card.component.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 183
+            }
+        ],
+        "enumerations": [],
+        "groupedVariables": {
+            "apps/nx-angular-tailwind-storybook-repro/.storybook/main.ts": [
+                {
+                    "name": "config",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "apps/nx-angular-tailwind-storybook-repro/.storybook/main.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "StorybookConfig",
+                    "defaultValue": "{\r\n  stories: ['../src/app/**/*.@(mdx|stories.@(js|jsx|ts|tsx))'],\r\n  addons: [getAbsolutePath(\"@storybook/addon-links\"), getAbsolutePath(\"@storybook/addon-docs\")],\r\n  env: (config) => ({\r\n    ...config,\r\n    NODE_ENV: 'development',\r\n  }),\r\n  framework: {\r\n    name: getAbsolutePath(\"@storybook/angular\"),\r\n    options: {},\r\n  },\r\n  docs: {\r\n    defaultName: 'Docs'\r\n  },\r\n  previewHead: (head) => `\r\n    ${head}\r\n    <link href=\"https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap\" rel=\"stylesheet\">\r\n    <link href=\"https://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\">\r\n  `,\r\n  webpackFinal: async (config) => {\r\n    // Ensure config.module exists\r\n    config.module = config.module || {};\r\n    config.module.rules = config.module.rules || [];\r\n\r\n    // Remove existing CSS rules to avoid conflicts\r\n    config.module.rules = config.module.rules.filter(rule => {\r\n      if (rule && typeof rule === 'object' && rule.test) {\r\n        return !rule.test.toString().includes('.css');\r\n      }\r\n      return true;\r\n    });\r\n\r\n    // Add PostCSS loader for CSS files to process Tailwind\r\n    config.module.rules.push({\r\n      test: /\\.css$/,\r\n      use: [\r\n        'style-loader',\r\n        'css-loader',\r\n        {\r\n          loader: 'postcss-loader',\r\n          options: {\r\n            postcssOptions: {\r\n              plugins: [\r\n                ['@tailwindcss/postcss', {}],\r\n              ],\r\n            },\r\n          },\r\n        },\r\n      ],\r\n    });\r\n\r\n    // Add SCSS loader for Angular Material theme\r\n    config.module.rules.push({\r\n      test: /\\.scss$/,\r\n      use: [\r\n        'style-loader',\r\n        'css-loader',\r\n        'sass-loader',\r\n      ],\r\n    });\r\n\r\n    return config;\r\n  },\r\n  staticDirs: ['../public'],\r\n}"
+                },
+                {
+                    "name": "require",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "apps/nx-angular-tailwind-storybook-repro/.storybook/main.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createRequire(import.meta.url)"
+                }
+            ],
+            "apps/nx-angular-tailwind-storybook-repro/src/app/components/material-card.component.stories.ts": [
+                {
+                    "name": "Default",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "apps/nx-angular-tailwind-storybook-repro/src/app/components/material-card.component.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    title: 'Material Card',\r\n    subtitle: 'Built with Angular Material',\r\n    content: 'This card showcases Angular Material components with a clean, Material Design aesthetic.',\r\n    showActions: true,\r\n  },\r\n}"
+                },
+                {
+                    "name": "LongContent",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "apps/nx-angular-tailwind-storybook-repro/src/app/components/material-card.component.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    title: 'Card with Long Content',\r\n    subtitle: 'Extended description',\r\n    content: 'This card demonstrates how the component handles longer content. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.',\r\n    showActions: true,\r\n  },\r\n}"
+                },
+                {
+                    "name": "meta",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "apps/nx-angular-tailwind-storybook-repro/src/app/components/material-card.component.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Meta<MaterialCardComponent>",
+                    "defaultValue": "{\r\n  component: MaterialCardComponent,\r\n  title: 'Components/Material Card',\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        component: 'A card component built with Angular Material components.',\r\n      },\r\n    },\r\n  },\r\n  argTypes: {\r\n    title: {\r\n      control: 'text',\r\n      description: 'The main title of the card',\r\n    },\r\n    subtitle: {\r\n      control: 'text',\r\n      description: 'The subtitle of the card',\r\n    },\r\n    content: {\r\n      control: 'text',\r\n      description: 'The main content text',\r\n    },\r\n    imageUrl: {\r\n      control: 'text',\r\n      description: 'Optional image URL for the card header',\r\n    },\r\n    showActions: {\r\n      control: 'boolean',\r\n      description: 'Whether to show action buttons',\r\n    },\r\n  },\r\n}"
+                },
+                {
+                    "name": "SimpleCard",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "apps/nx-angular-tailwind-storybook-repro/src/app/components/material-card.component.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    title: 'Simple Card',\r\n    subtitle: 'No actions',\r\n    content: 'This is a simple card without action buttons.',\r\n    showActions: false,\r\n  },\r\n}"
+                },
+                {
+                    "name": "WithImage",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "apps/nx-angular-tailwind-storybook-repro/src/app/components/material-card.component.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    title: 'Beautiful Landscape',\r\n    subtitle: 'Nature Photography',\r\n    content: 'Discover the beauty of nature through this stunning landscape photograph.',\r\n    imageUrl: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',\r\n    showActions: true,\r\n  },\r\n}"
+                }
+            ],
+            "apps/nx-angular-tailwind-storybook-repro/src/app/components/tailwind-card.component.stories.ts": [
+                {
+                    "name": "Default",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "apps/nx-angular-tailwind-storybook-repro/src/app/components/tailwind-card.component.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    title: 'Tailwind Card',\r\n    description: 'This card showcases beautiful styling with Tailwind CSS utility classes.',\r\n    badges: ['CSS', 'Responsive', 'Modern'],\r\n    showButton: true,\r\n    buttonText: 'Learn More',\r\n  },\r\n}"
+                },
+                {
+                    "name": "meta",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "apps/nx-angular-tailwind-storybook-repro/src/app/components/tailwind-card.component.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Meta<TailwindCardComponent>",
+                    "defaultValue": "{\r\n  component: TailwindCardComponent,\r\n  title: 'Components/Tailwind Card',\r\n  parameters: {\r\n    docs: {\r\n      description: {\r\n        component: 'A modern card component styled with Tailwind CSS utility classes.',\r\n      },\r\n    },\r\n  },\r\n  argTypes: {\r\n    title: {\r\n      control: 'text',\r\n      description: 'The main title of the card',\r\n    },\r\n    description: {\r\n      control: 'text',\r\n      description: 'The description text of the card',\r\n    },\r\n    imageUrl: {\r\n      control: 'text',\r\n      description: 'Optional image URL for the card header',\r\n    },\r\n    badges: {\r\n      control: 'object',\r\n      description: 'Array of badge labels',\r\n    },\r\n    showButton: {\r\n      control: 'boolean',\r\n      description: 'Whether to show the action button',\r\n    },\r\n    buttonText: {\r\n      control: 'text',\r\n      description: 'Text for the action button',\r\n    },\r\n  },\r\n}"
+                },
+                {
+                    "name": "ProductCard",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "apps/nx-angular-tailwind-storybook-repro/src/app/components/tailwind-card.component.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    title: 'Premium Product',\r\n    description: 'High-quality product with excellent features and modern design.',\r\n    badges: ['Premium', 'Quality', 'Design'],\r\n    showButton: true,\r\n    buttonText: 'Buy Now',\r\n  },\r\n}"
+                },
+                {
+                    "name": "SimpleCard",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "apps/nx-angular-tailwind-storybook-repro/src/app/components/tailwind-card.component.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    title: 'Simple Design',\r\n    description: 'Sometimes less is more. This card demonstrates a clean, minimal approach.',\r\n    badges: ['Minimal', 'Clean'],\r\n    showButton: false,\r\n  },\r\n}"
+                },
+                {
+                    "name": "TechCard",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "apps/nx-angular-tailwind-storybook-repro/src/app/components/tailwind-card.component.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    title: 'Modern Web Development',\r\n    description: 'Build amazing user interfaces with modern frameworks and tools.',\r\n    badges: ['React', 'Angular', 'Vue'],\r\n    showButton: true,\r\n    buttonText: 'Start Building',\r\n  },\r\n}"
+                },
+                {
+                    "name": "WithImage",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "apps/nx-angular-tailwind-storybook-repro/src/app/components/tailwind-card.component.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    title: 'Mountain Adventure',\r\n    description: 'Explore breathtaking mountain landscapes and outdoor adventures.',\r\n    imageUrl: 'https://images.unsplash.com/photo-1464822759844-d150f80349b9?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80',\r\n    badges: ['Adventure', 'Nature', 'Photography'],\r\n    showButton: true,\r\n    buttonText: 'Explore Now',\r\n  },\r\n}"
+                }
+            ],
+            "apps/nx-angular-tailwind-storybook-repro/src/app/app.component.stories.ts": [
+                {
+                    "name": "meta",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "apps/nx-angular-tailwind-storybook-repro/src/app/app.component.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Meta<AppComponent>",
+                    "defaultValue": "{\r\n  component: AppComponent,\r\n  title: 'AppComponent',\r\n  decorators: [\r\n    moduleMetadata({\r\n      imports: [\r\n        RouterTestingModule\r\n      ],\r\n    }),\r\n  ],\r\n}"
+                },
+                {
+                    "name": "Primary",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "apps/nx-angular-tailwind-storybook-repro/src/app/app.component.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\r\n  args: {\r\n    title: 'nx-angular-tailwind-storybook-repro',\r\n  },\r\n}"
+                }
+            ],
+            "apps/nx-angular-tailwind-storybook-repro/.storybook/preview.ts": [
+                {
+                    "name": "preview",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "apps/nx-angular-tailwind-storybook-repro/.storybook/preview.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Preview",
+                    "defaultValue": "{\r\n  parameters: {\r\n    controls: {\r\n      matchers: {\r\n        color: /(background|color)$/i,\r\n        date: /Date$/,\r\n      },\r\n    },\r\n    docs: {\r\n      toc: true,\r\n    },\r\n    backgrounds: {\r\n      default: 'light',\r\n      values: [\r\n        {\r\n          name: 'light',\r\n          value: '#ffffff',\r\n        },\r\n        {\r\n          name: 'dark',\r\n          value: '#333333',\r\n        },\r\n        {\r\n          name: 'gray',\r\n          value: '#f5f5f5',\r\n        },\r\n      ],\r\n    },\r\n  },\r\n\r\n  decorators: [\r\n    (story) => {\r\n      return story();\r\n    },\r\n  ],\r\n\r\n  tags: ['autodocs']\r\n}"
+                }
+            ]
+        },
+        "groupedFunctions": {
+            "apps/nx-angular-tailwind-storybook-repro/.storybook/main.ts": [
+                {
+                    "name": "getAbsolutePath",
+                    "file": "apps/nx-angular-tailwind-storybook-repro/.storybook/main.ts",
+                    "ctype": "miscellaneous",
+                    "subtype": "function",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "args": [
+                        {
+                            "name": "value",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "returnType": "any",
+                    "jsdoctags": [
+                        {
+                            "name": "value",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        "groupedEnumerations": {},
+        "groupedTypeAliases": {
+            "apps/nx-angular-tailwind-storybook-repro/src/app/app.component.stories.ts": [
+                {
+                    "name": "Story",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "StoryObj<AppComponent>",
+                    "file": "apps/nx-angular-tailwind-storybook-repro/src/app/app.component.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 183
+                }
+            ],
+            "apps/nx-angular-tailwind-storybook-repro/src/app/components/material-card.component.stories.ts": [
+                {
+                    "name": "Story",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "StoryObj<MaterialCardComponent>",
+                    "file": "apps/nx-angular-tailwind-storybook-repro/src/app/components/material-card.component.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 183
+                }
+            ],
+            "apps/nx-angular-tailwind-storybook-repro/src/app/components/tailwind-card.component.stories.ts": [
+                {
+                    "name": "Story",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "StoryObj<TailwindCardComponent>",
+                    "file": "apps/nx-angular-tailwind-storybook-repro/src/app/components/tailwind-card.component.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 183
+                }
+            ]
+        }
+    },
+    "routes": [],
+    "coverage": {
+        "count": 0,
+        "status": "low",
+        "files": [
+            {
+                "filePath": "apps/nx-angular-tailwind-storybook-repro/.storybook/main.ts",
+                "type": "function",
+                "linktype": "miscellaneous",
+                "linksubtype": "function",
+                "name": "getAbsolutePath",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "apps/nx-angular-tailwind-storybook-repro/.storybook/main.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "config",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "apps/nx-angular-tailwind-storybook-repro/.storybook/main.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "require",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "apps/nx-angular-tailwind-storybook-repro/.storybook/preview.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "preview",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "apps/nx-angular-tailwind-storybook-repro/src/app/app.component.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "meta",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "apps/nx-angular-tailwind-storybook-repro/src/app/app.component.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Primary",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "apps/nx-angular-tailwind-storybook-repro/src/app/app.component.stories.ts",
+                "type": "type alias",
+                "linktype": "miscellaneous",
+                "linksubtype": "typealias",
+                "name": "Story",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "apps/nx-angular-tailwind-storybook-repro/src/app/components/material-card.component.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Default",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "apps/nx-angular-tailwind-storybook-repro/src/app/components/material-card.component.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "LongContent",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "apps/nx-angular-tailwind-storybook-repro/src/app/components/material-card.component.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "meta",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "apps/nx-angular-tailwind-storybook-repro/src/app/components/material-card.component.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "SimpleCard",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "apps/nx-angular-tailwind-storybook-repro/src/app/components/material-card.component.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "WithImage",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "apps/nx-angular-tailwind-storybook-repro/src/app/components/material-card.component.stories.ts",
+                "type": "type alias",
+                "linktype": "miscellaneous",
+                "linksubtype": "typealias",
+                "name": "Story",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "apps/nx-angular-tailwind-storybook-repro/src/app/components/tailwind-card.component.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Default",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "apps/nx-angular-tailwind-storybook-repro/src/app/components/tailwind-card.component.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "meta",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "apps/nx-angular-tailwind-storybook-repro/src/app/components/tailwind-card.component.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "ProductCard",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "apps/nx-angular-tailwind-storybook-repro/src/app/components/tailwind-card.component.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "SimpleCard",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "apps/nx-angular-tailwind-storybook-repro/src/app/components/tailwind-card.component.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "TechCard",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "apps/nx-angular-tailwind-storybook-repro/src/app/components/tailwind-card.component.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "WithImage",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "apps/nx-angular-tailwind-storybook-repro/src/app/components/tailwind-card.component.stories.ts",
+                "type": "type alias",
+                "linktype": "miscellaneous",
+                "linksubtype": "typealias",
+                "name": "Story",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            }
+        ]
+    }
+}

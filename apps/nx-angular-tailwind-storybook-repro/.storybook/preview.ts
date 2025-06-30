@@ -31,11 +31,14 @@ const preview: Preview = {
       ],
     },
   },
+
   decorators: [
     (story) => {
       return story();
     },
   ],
+
+  tags: ['autodocs']
 };
 
 export default preview;
