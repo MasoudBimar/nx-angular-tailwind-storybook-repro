@@ -1,0 +1,21 @@
+/* Tailwind CSS v4 imports */
+@import "tailwindcss";
+
+/* Import Angular Material theme */
+@import "../src/custom-theme.scss";
+
+/* Basic reset and styles */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
