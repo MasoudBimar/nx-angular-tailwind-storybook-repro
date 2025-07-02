@@ -23,50 +23,6 @@ const config: StorybookConfig = {
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   `,
-  webpackFinal: async (config) => {
-    // Ensure config.module exists
-    config.module = config.module || {};
-    config.module.rules = config.module.rules || [];
-
-    // Remove existing CSS rules to avoid conflicts
-    config.module.rules = config.module.rules.filter(rule => {
-      if (rule && typeof rule === 'object' && rule.test) {
-        return !rule.test.toString().includes('.css');
-      }
-      return true;
-    });
-
-    // Add PostCSS loader for CSS files to process Tailwind
-    config.module.rules.push({
-      test: /\.css$/,
-      use: [
-        'style-loader',
-        'css-loader',
-        {
-          loader: 'postcss-loader',
-          options: {
-            postcssOptions: {
-              plugins: [
-                ['@tailwindcss/postcss', {}],
-              ],
-            },
-          },
-        },
-      ],
-    });
-
-    // Add SCSS loader for Angular Material theme
-    config.module.rules.push({
-      test: /\.scss$/,
-      use: [
-        'style-loader',
-        'css-loader',
-        'sass-loader',
-      ],
-    });
-
-    return config;
-  },
   staticDirs: ['../public'],
 };
 

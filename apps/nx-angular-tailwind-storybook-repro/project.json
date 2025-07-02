@@ -90,7 +90,10 @@
       "options": {
         "port": 4400,
         "configDir": "apps/nx-angular-tailwind-storybook-repro/.storybook",
-        "browserTarget": "nx-angular-tailwind-storybook-repro:build"
+        "browserTarget": "nx-angular-tailwind-storybook-repro:build",
+        "styles": [
+          "apps/nx-angular-tailwind-storybook-repro/.storybook/storybook-styles.css"
+        ]
       }
     },
     "build-storybook": {
