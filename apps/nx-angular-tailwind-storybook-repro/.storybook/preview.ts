@@ -1,6 +1,5 @@
 import type { Preview } from '@storybook/angular';
 // Import simplified styles that work in Storybook
-import './storybook-styles.css';
 
 const preview: Preview = {
   parameters: {
